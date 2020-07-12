@@ -10,14 +10,24 @@ import './app.css'
 
 
 const App = () => {
-    return (
+
+    // модуляция данных с сервера (включая технич данные, ктр могут быть)
+    const data = [                                                         
+        {label: 'Going to learn React', important: false, id: 'qsad'},      
+        {label: 'This is important library', important: true, id: 'dsfe'},
+        {label: 'Needs time to sharpen skills', important: false, id: 'accd'},
+        112,                                                                
+        'helloWorld'                                                        
+    ];
+
+    return (                                            
         <div className="app">
             <AppHeader/>
             <div className="search-panel d-flex">
                 <SearchPanel/>
                 <PostStatusFilter/>
             </div>
-            <PostList/>
+            <PostList posts={data} />    
             <PostAddForm/>
         </div>
     )
