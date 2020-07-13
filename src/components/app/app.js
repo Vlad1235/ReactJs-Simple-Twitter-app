@@ -31,6 +31,7 @@ export default class App extends React.Component {
         this.deleteItem = this.deleteItem.bind(this);
         this.onToggleImportant = this.onToggleImportant.bind(this);
         this.onToggleLike = this.onToggleLike.bind(this);
+        this.addItem = this.addItem.bind(this);
 
         this.maxId = 4;
     }
@@ -82,6 +83,23 @@ export default class App extends React.Component {
         });
     }
 
+    addItem(content) {
+        if(content) {
+            const newItem = {
+                label: content,
+                important: false,
+                like: false,
+                id: this.maxId++
+            }
+            this.setState(({data}) => {
+                const newArr = [...data, newItem];
+                return {
+                    data: newArr
+                }
+            });
+        } 
+    }
+
     render() {
         const {data} = this.state;
 
@@ -104,7 +122,7 @@ export default class App extends React.Component {
                     onToggleImportant={this.onToggleImportant}
                     onToggleLike={this.onToggleLike}
                 />    
-                <PostAddForm/>
+                <PostAddForm onAdd={ this.addItem } />
             </AppBlock>
         )
     }
