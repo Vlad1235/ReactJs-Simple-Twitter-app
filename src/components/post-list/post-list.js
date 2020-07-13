@@ -19,7 +19,14 @@ const PostList = (props) => {
         if ( typeof item === 'object' && _isEmpty(item) ) {      
             return (
                 <li key={item.id} className="list-group-item">
-                    <PostListItem label={item.label} important={item.important} onDelete={ ()=> props.onDelete(item.id) }/>
+                    <PostListItem 
+                        label={item.label} 
+                        important={item.important}
+                        like = {item.like} 
+                        onDelete={ () => props.onDelete(item.id) }
+                        onToggleImportant = { () => props.onToggleImportant(item.id) }
+                        onToggleLike = { () => props.onToggleLike(item.id) }
+                        />
                 </li>
             )
         }

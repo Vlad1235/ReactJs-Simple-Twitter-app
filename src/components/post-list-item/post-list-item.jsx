@@ -4,33 +4,9 @@ import './post-list-item.css'
 
 export default class PostListItem extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {          // значения по умолчанию задали
-            important: false,   
-            like: false         
-        };
-        this.onImportant = this.onImportant.bind(this);
-        this.onLike = this.onLike.bind(this);
-    }
-
-    // обработчик для звездочки
-    onImportant() {
-        this.setState(({important}) => ({   // оборачиваем в () дополнительно. Деструктурируем state
-            important : !important
-        }))
-    }
-
-    // обработчик для сердечка
-    onLike() {
-        this.setState(({like}) => ({   // оборачиваем в () дополнительно
-            like : !like
-        }))
-    }
 
     render() {
-        const {label, onDelete} = this.props;               // получаем из неизменяемой части
-        const {important, like} = this.state;     // получаем из собственного созданного состояния
+        const {label, onDelete, onToggleImportant, onToggleLike, important, like} = this.props;               // получаем из неизменяемой части
         let classNames = 'app-list-item d-flex justify-content-between';    // динамически изменяется
 
         if(important) {
@@ -42,11 +18,11 @@ export default class PostListItem extends React.Component {
 
         return (
             <div className={classNames} >   
-                <span className="app-list-item-label" onClick={this.onLike} >
+                <span className="app-list-item-label" onClick={onToggleLike} >
                     {label}
                 </span>
                 <div className="d-flex justify-content-center align-items-center">
-                    <button type="button" className="btn-star btn-sm" onClick={this.onImportant} >
+                    <button type="button" className="btn-star btn-sm" onClick={onToggleImportant} >
                         <i className="fa fa-star"></i>
                     </button>
                     <button type="button" className="btn-trash btn-sm" onClick={onDelete}>
