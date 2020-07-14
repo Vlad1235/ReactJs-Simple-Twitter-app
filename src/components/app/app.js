@@ -27,7 +27,8 @@ export default class App extends React.Component {
                 112,                                                                
                 'helloWorld'                                                        
             ],
-            term: ''
+            term: '',
+            filter: 'all'   
         };
         this.deleteItem = this.deleteItem.bind(this);
         this.onToggleImportant = this.onToggleImportant.bind(this);
@@ -35,6 +36,7 @@ export default class App extends React.Component {
         this.addItem = this.addItem.bind(this);
         this.searchPost = this.searchPost.bind(this);
         this.onSearch = this.onSearch.bind(this);
+        this.onFilterSelect = this.onFilterSelect.bind(this);
 
         this.maxId = 4;
     }
@@ -121,13 +123,28 @@ export default class App extends React.Component {
         }) 
     }
 
+    filterPost(data, filter) {
+        switch(filter) {
+            case 'like':
+                return data.filter((item) => item.like === true)
+            default:
+                return data
+        }
+    }
+
+    onFilterSelect(filter) {
+        this.setState({
+            filter: filter
+        })
+    }
+
     render() {
-        const {data, term} = this.state;
+        const {data, term, filter} = this.state;
 
         const liked = data.filter(item => item.like).length;
         const allPostsAmount = data.filter(item => typeof item === "object").length
 
-        const visiblePosts = this.searchPost(data, term);
+        const visiblePosts = this.filterPost(this.searchPost(data, term), filter);
 
         return (                                            
             <AppBlock>
@@ -139,7 +156,10 @@ export default class App extends React.Component {
                     <SearchPanel
                         onSearch={this.onSearch}
                     />
-                    <PostStatusFilter/>
+                    <PostStatusFilter
+                        filter={filter}     
+                        onFilterSelect={this.onFilterSelect}    
+                    />
                 </div>
                 <PostList 
                     posts={visiblePosts} 
